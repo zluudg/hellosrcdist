@@ -33,7 +33,7 @@ jobs:
         run: echo "::set-output name=path::$(ls dist/*tar.gz)"
       - name: Get Filename
         id: get_filename
-        run: echo "::set-output name=filename::$(ls basename/*tar.gz)"
+        run: echo "::set-output name=filename::$(basename dist/*tar.gz)"
       - name: Upload
         uses: actions/upload-release-asset@v1
         with:
