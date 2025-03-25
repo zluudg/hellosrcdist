@@ -1,5 +1,6 @@
 VERSION:=`cat ./VERSION`
 COMMIT:=`git describe --dirty=+WiP --always`
+APP:=hellosrcdist
 
 all: version.go
 	go build -v -ldflags "-X app.version=$(VERSION)-$(COMMIT)" -o ./bin/ ./cmd/...
@@ -24,5 +25,9 @@ clean:
 
 version.go:
 	echo "package app" > ./app/version.go
-	echo "const Name = \"hellosrcdist\"" >> ./app/version.go
+	echo "const Name = \"h$(APP)\"" >> ./app/version.go
 	echo "const Version = \"$(VERSION)-$(COMMIT)\"" >> ./app/version.go
+
+srcdist:
+	-mkdir dist
+	git archive --format=tar.gz --prefix=$(APP)-$(VERSION) -o dist/$(APP)-$(VERSION).tar.gz HEAD
