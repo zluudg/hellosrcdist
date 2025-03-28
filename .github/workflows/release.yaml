@@ -26,20 +26,3 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Tarball
-        run: make srcdist
-      - name: Get Path
-        id: get_path
-        run: echo "::set-output name=path::$(ls dist/*tar.gz)"
-      - name: Get Filename
-        id: get_filename
-        run: echo "::set-output name=filename::$(basename dist/*tar.gz)"
-      - name: Upload
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.get_path.outputs.path }}
-          asset_name: ${{ steps.get_filename.outputs.filename }}
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
